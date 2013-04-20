@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%- title %></title>
+
+		<!-- Viewport mobile tag for sensible mobile support -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		
+		<!-- JavaScript and stylesheets from your assets folder are included here -->
+		<%- assets.css() %>
+		<%- assets.js() %>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+	</head>
+
+	<body ng-app>
+		<div id="content" ng-controller="BookCtrl">
+			<form ng-submit="add()">
+		        <input type="text" ng-model="newBookTitle"  size="30" placeholder="Title">
+		        <input type="submit" value="add">
+		    </form>
+            <ul>
+                <li ng-repeat="book in books">
+                	<div ng-switch on="editCheck(book.id)">
+                		<form ng-switch-when="edit" ng-submit="update($index, book.id)">
+                			<input type="text" ng-model="book.title"  size="30" placeholder="New Title">
+		        			<input type="submit" value="save">
+                		</form>
+	                    <span ng-switch-default>{{book.title}}
+	                    	<a href="#" ng-click="edit(book.id)">Edit</a>
+	                    	<a href="#" ng-click="delete($index, book.id)">Delete</a>
+	                    </span>
+                	</div>
+                </li>
+            </ul>
+        </div>		
+	</body>
+</html>
