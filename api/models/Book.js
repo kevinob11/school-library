@@ -6,8 +6,12 @@ module.exports = {
 
 	attributes	: {
 
-		title: {
-			type: 'STRING',
+		title: 'STRING',
+
+		checkout: {
+			person: 'STRING',
+			checkout: 'STRING',
+			checkin: 'STRING'
 		}
 		
 	}

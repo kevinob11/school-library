@@ -1,60 +1,78 @@
-function BookCtrl($scope) {
+function BookCtrl($scope, $http) {
 	
-	var	socket = io.connect("http://node.local:1337");
-
-	$scope.books = [];
-
-	$scope.getBooks = function () {
-		socket.request('/book', {}, function(response) {
-			$scope.$apply(function(){
-				$scope.books = response;
-			});
-		});
-	}
-
-	$scope.getBooks();
+	$http.get('/book').success(function(data, status, headers, config){
+		$scope.books = data;
+	});
 
 	$scope.add = function () {
-		var book = {
-			title: $scope.newBookTitle,
-		};
-
+		var book = {title: $scope.newBookTitle};
 		var n = $scope.books.length;
+
 		$scope.books.push(book);
 
-		socket.request('/book/create', book, function(response) {
-			$scope.$apply(function(){
-				$scope.books[n] = response;
-			});
+		$http.post('/book', book).success(function(data, status, headers, config){
+			$scope.books[n] = data;
 		});
 
 		$scope.newBookTitle = '';
+		$scope.order();
 	}
 
-	$scope.editCheck = function (id) {
-		if (id == $scope.editing) {
+	$scope.action = function (id) {
+		if ($scope.editToggle && id == $scope.editToggle) {
 			return "edit";
-		}
-		else {
+		} else if ($scope.checkoutToggle && id == $scope.checkoutToggle) {
+			return "checkout";
+		} else {
 			return false;
 		}
 	}
 
-	$scope.edit = function (id) {
-		$scope.editing = id;
+	$scope.toggleEdit = function (id) {
+		$scope.editToggle = id;
 	}
 
-	$scope.update = function (index, id) {
-		delete $scope.editing;
+	$scope.toggleCheckout = function (id) {
+		$scope.checkoutToggle = id;
+	}
 
-		var book = {title: $scope.books[index].title};
-		socket.request('/book/update/' + id, book, function(response) {})
+	$scope.updateEdit = function (index, id) {
+		delete $scope.editToggle;
+
+		$http.put('/book/' + id, $scope.books[index]).success(function(data, status, headers, config){});
+	}
+
+	$scope.updateCheckout = function (book) {
+		book.checkout = book.checkout || [];
+		book.checkout.push({person: book.checkoutName, checkout: new Date()});
+
+		delete book.checkoutName;
+
+		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
+
+		delete $scope.checkoutToggle;
+	}
+
+	$scope.updateCheckin = function (book) {
+		book.checkout[book.checkout.length - 1].checkin = new Date();
+
+		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
 	}
 
 	$scope.delete = function (index, id) {
 		$scope.books.splice(index, 1);
 
-		socket.request('/book/destroy/' + id, {}, function(response) {});
+		$http.delete('/book/' + id).success(function(data, status, headers, config){});
+	}
+
+	$scope.checkoutCheck = function (index) {
+		var checkout = $scope.books[index].checkout || [];
+
+		if (checkout.length && !checkout[checkout.length - 1].checkin) {
+			return checkout[checkout.length - 1].person;
+		} else {
+			return false;
+		}
 	}
 	
 }
