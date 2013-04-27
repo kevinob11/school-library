@@ -6,7 +6,10 @@ module.exports = {
 
 	attributes	: {
 
-		title: 'STRING',
+		title: {
+			type: 'STRING'
+			//defaultsTo: 'Default'
+		},
 
 		checkout: {
 			person: 'STRING',

@@ -15,47 +15,10 @@ function BookCtrl($scope, $http) {
 		});
 
 		$scope.newBookTitle = '';
-		$scope.order();
 	}
 
-	$scope.action = function (id) {
-		if ($scope.editToggle && id == $scope.editToggle) {
-			return "edit";
-		} else if ($scope.checkoutToggle && id == $scope.checkoutToggle) {
-			return "checkout";
-		} else {
-			return false;
-		}
-	}
-
-	$scope.toggleEdit = function (id) {
-		$scope.editToggle = id;
-	}
-
-	$scope.toggleCheckout = function (id) {
-		$scope.checkoutToggle = id;
-	}
-
-	$scope.updateEdit = function (index, id) {
-		delete $scope.editToggle;
-
-		$http.put('/book/' + id, $scope.books[index]).success(function(data, status, headers, config){});
-	}
-
-	$scope.updateCheckout = function (book) {
-		book.checkout = book.checkout || [];
-		book.checkout.push({person: book.checkoutName, checkout: new Date()});
-
-		delete book.checkoutName;
-
-		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
-
-		delete $scope.checkoutToggle;
-	}
-
-	$scope.updateCheckin = function (book) {
-		book.checkout[book.checkout.length - 1].checkin = new Date();
-
+	$scope.edit = function (book) {
+		delete book.edit;
 		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
 	}
 
@@ -65,14 +28,27 @@ function BookCtrl($scope, $http) {
 		$http.delete('/book/' + id).success(function(data, status, headers, config){});
 	}
 
-	$scope.checkoutCheck = function (index) {
-		var checkout = $scope.books[index].checkout || [];
+	$scope.checkout = function (book) {
+		book.checkout = book.checkout || [];
+		book.checkout.push({person: book.checkoutName, checkout: new Date()});
 
-		if (checkout.length && !checkout[checkout.length - 1].checkin) {
-			return checkout[checkout.length - 1].person;
-		} else {
-			return false;
+		delete book.checkoutName;
+		delete book.checking;
+
+		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
+	}
+
+	$scope.checkin = function (book) {
+		book.checkout[book.checkout.length - 1].checkin = new Date();
+
+		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
+	}
+
+	$scope.checkoutCheck = function (book) {
+		if (book.checkout && !book.checkout[book.checkout.length - 1].checkin) {
+			return book.checkout[book.checkout.length - 1].person;
 		}
+		return false;
 	}
 	
 }

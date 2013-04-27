@@ -20,32 +20,32 @@
 		    </form>
             <ul>
                 <li ng-repeat="book in books">
-                	<div ng-switch on="action(book.id)">
-                		<form ng-switch-when="edit" ng-submit="updateEdit($index, book.id)">
+                	<div ng-switch on="book.edit">
+                		<form ng-switch-when="edit" ng-submit="edit(book)">
                 			<input type="text" ng-model="book.title" size="30" placeholder="New Title">
 		        			<input type="submit" value="save">
                 		</form>
                 		
 	                    <span ng-switch-default>
 	                    	<span>{{book.title}}</span>
-	                    	<a href="#" ng-click="toggleEdit(book.id)">Edit</a>
+	                    	<a href="#" ng-click="book.edit = 'edit'">Edit</a>
 	                    	<a href="#" ng-click="delete($index, book.id)">Delete</a>
 	                    </span>
                 	</div>
-                	<div ng-switch on="checkoutCheck($index)">
-                		<div ng-switch-when="false" ng-switch on="action(book.id)">
-                			<form ng-switch-when="checkout" ng-submit="updateCheckout(book)">
+                	<div ng-switch on="checkoutCheck(book)">
+                		<div ng-switch-when="false" ng-switch on="book.checking">
+                			<form ng-switch-when="checkout" ng-submit="checkout(book)">
 	                			<input type="text" ng-model="book.checkoutName" size="30" placeholder="Name">
 			        			<input type="submit" value="save">
 	                		</form>
                 			<span ng-switch-default>
                 				<span>Available</span>
-		                    	<a href="#" ng-click="toggleCheckout(book.id)">Checkout</a>
+		                    	<a href="#" ng-click="book.checking = 'checkout'">Checkout</a>
 		                    </span>
                 		</div>
                 		<div ng-switch-default>
-                			<span>Checked out to: {{checkoutCheck($index)}}</span>
-                			<a href="#" ng-click="updateCheckin(book)">Checkin</a>
+                			<span>Checked out to: {{checkoutCheck(book)}}</span>
+                			<a href="#" ng-click="checkin(book)">Checkin</a>
                 		</div>
                 	</div>
                 </li>
