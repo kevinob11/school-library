@@ -6,13 +6,8 @@ module.exports = {
 
 	attributes	: {
 
-		username: {
-			defaultsTo: 'testuser'
-		},
-
-		password: {
-			defaultsTo: 'testpass'
-		}
+		username: {},
+		password: {}
 		
 	}
 

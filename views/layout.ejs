@@ -5,21 +5,29 @@
 
 		<!-- Viewport mobile tag for sensible mobile support -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
 		<!-- JavaScript and stylesheets from your assets folder are included here -->
 		<%- assets.css() %>
 		<%- assets.js() %>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+		
 	</head>
 
-	<body ng-app>
+	<body ng-app="Library">
+		<div id="login" ng-controller="LoginCtrl">
+			<form ng-submit="login()" ng-hide="user">
+		        <input type="text" ng-model="username"  size="30" placeholder="Username">
+		        <input type="password" ng-model="password"  size="30" placeholder="Password">
+		        <input type="submit" value="login">
+		    </form>
+		    <a href="" ng-click="logout()" ng-show="user">Logout</a>
+		</div>
 		<div id="content" ng-controller="BookCtrl">
-			<form ng-submit="add()">
+			<form ng-submit="add()" ng-show="user">
 		        <input type="text" ng-model="newBookTitle"  size="30" placeholder="Title">
 		        <input type="submit" value="add">
 		    </form>
             <ul>
-                <li ng-repeat="book in books">
+                <li ng-repeat="book in books | orderBy:'title'">
                 	<div ng-switch on="book.edit">
                 		<form ng-switch-when="edit" ng-submit="edit(book)">
                 			<input type="text" ng-model="book.title" size="30" placeholder="New Title">
@@ -28,8 +36,8 @@
                 		
 	                    <span ng-switch-default>
 	                    	<span>{{book.title}}</span>
-	                    	<a href="#" ng-click="book.edit = 'edit'">Edit</a>
-	                    	<a href="#" ng-click="delete($index, book.id)">Delete</a>
+	                    	<a href="" ng-click="book.edit = 'edit'" ng-show="user">Edit</a>
+	                    	<a href="" ng-click="delete(book)" ng-show="user">Delete</a>
 	                    </span>
                 	</div>
                 	<div ng-switch on="checkoutCheck(book)">
@@ -40,12 +48,12 @@
 	                		</form>
                 			<span ng-switch-default>
                 				<span>Available</span>
-		                    	<a href="#" ng-click="book.checking = 'checkout'">Checkout</a>
+		                    	<a href="" ng-click="book.checking = 'checkout'">Checkout</a>
 		                    </span>
                 		</div>
                 		<div ng-switch-default>
                 			<span>Checked out to: {{checkoutCheck(book)}}</span>
-                			<a href="#" ng-click="checkin(book)">Checkin</a>
+                			<a href="" ng-click="checkin(book)">Checkin</a>
                 		</div>
                 	</div>
                 </li>

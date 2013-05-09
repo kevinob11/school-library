@@ -14,5 +14,9 @@ module.exports.policies = {
 		'create': 'authenticated',
 		'update': 'authenticated',
 		'destroy': 'authenticated'
+	},
+
+	'user': {
+		'*': 'authenticated'
 	}
 };

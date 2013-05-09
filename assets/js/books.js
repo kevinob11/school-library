@@ -1,5 +1,5 @@
 function BookCtrl($scope, $http) {
-	
+
 	$http.get('/book').success(function(data, status, headers, config){
 		$scope.books = data;
 	});
@@ -22,10 +22,11 @@ function BookCtrl($scope, $http) {
 		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
 	}
 
-	$scope.delete = function (index, id) {
+	$scope.delete = function (book) {
+		var index = $scope.books.indexOf(book);
 		$scope.books.splice(index, 1);
 
-		$http.delete('/book/' + id).success(function(data, status, headers, config){});
+		$http.delete('/book/' + book.id).success(function(data, status, headers, config){});
 	}
 
 	$scope.checkout = function (book) {
@@ -52,3 +53,4 @@ function BookCtrl($scope, $http) {
 	}
 	
 }
+BookCtrl.$inject = ['$scope', '$http'];
