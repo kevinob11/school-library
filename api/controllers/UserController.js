@@ -26,7 +26,7 @@ var UserController = {
 			req.body.password = require('crypto').createHash('sha256').update(req.body.password).digest("hex");
 		}
 
-		User.update(req.body).done(function(err,user){
+		User.update({id: req.body.id}, req.body, function(err,user){
 			if (err) {
 				res.send("Error updating user.");
 			} else {
