@@ -30,19 +30,27 @@ function BookCtrl($scope, $http) {
 	}
 
 	$scope.checkout = function (book) {
-		book.checkout = book.checkout || [];
-		book.checkout.push({person: book.checkoutName, checkout: new Date()});
+		if (book.checkoutName) {
+			book.checkout = book.checkout || [];
+			book.checkout.push({person: book.checkoutName, checkout: new Date()});
+		}
 
 		delete book.checkoutName;
 		delete book.checking;
 
-		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
+		if (book.checkoutName) {
+			$http.put('/book/checkout', book).success(function(data, status, headers, config){
+				console.log(data);
+			});
+		}
 	}
 
 	$scope.checkin = function (book) {
 		book.checkout[book.checkout.length - 1].checkin = new Date();
 
-		$http.put('/book/' + book.id, book).success(function(data, status, headers, config){});
+		$http.put('/book/checkin', book).success(function(data, status, headers, config){
+			console.log(data);
+		});
 	}
 
 	$scope.checkoutCheck = function (book) {
