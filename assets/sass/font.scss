@@ -1,0 +1,35 @@
+@import "base";
+
+$light: "open-sans/light";
+@include font-face(
+  'open-sans-light', font-files(
+    "#{$light}.woff", woff,
+    "#{$light}.ttf", truetype,
+    "#{$light}.svg", svg
+  ),
+  '#{$light}.eot', normal, normal
+);
+  
+$regular: "open-sans/regular";
+@include font-face(
+  'open-sans', font-files(
+    "#{$regular}.woff", woff,
+    "#{$regular}.ttf", truetype,
+    "#{$regular}.svg", svg
+  ),
+  '#{$regular}.eot', normal, normal
+);
+
+$bold: "open-sans/bold";
+@include font-face(
+  'open-sans-bold', font-files(
+    "#{$bold}.woff", woff,
+    "#{$bold}.ttf", truetype,
+    "#{$bold}.svg", svg
+  ),
+  '#{$bold}.eot', normal, normal
+);
+
+html {
+  font-family: open-sans, serif;
+}

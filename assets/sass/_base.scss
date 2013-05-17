@@ -1,0 +1,17 @@
+@import "compass/support";
+@import "compass/css3";
+@import "icon-font-mixins";
+@import "compass/css3/font-face";
+
+@mixin input-placeholder {
+	&::-webkit-input-placeholder { @content; }	// [1]
+	&:-moz-placeholder { @content; }						// [1]
+	&:-ms-input-placeholder { @content; }				// [2]
+}
+
+// Shortcut to set the color of html5 input placeholder text.
+@mixin input-placeholder-color($color) {
+	@include input-placeholder {
+		color: $color;
+	}
+}

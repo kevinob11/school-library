@@ -1,0 +1,28 @@
+// If you can't set classes on something use this to make font awesome work.
+@mixin icon-font {
+  &:before{
+    font-family: 'icon-font';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@mixin icon-size ($height, $font-size) {
+  line-height: $font-size;
+  height: $font-size;
+  font-size: $font-size;
+  padding-top: ($height - $font-size) / 2;
+  padding-bottom: ($height - $font-size) / 2;
+  display: inline-block;
+  vertical-align: top;
+}
+
+@mixin icon-search                  {&:before{content: "\e000";}}
+@mixin icon-login                   {&:before{content: "\e001";}}
+@mixin icon-delete                  {&:before{content: "\e001";}}
+@mixin icon-edit                    {&:before{content: "\e001";}}
+@mixin icon-checkin                 {&:before{content: "\e001";}}
+@mixin icon-checkout                {&:before{content: "\e001";}}

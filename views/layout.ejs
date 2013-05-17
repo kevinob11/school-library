@@ -13,21 +13,32 @@
 	</head>
 
 	<body ng-app="Library">
-		<div id="login" ng-controller="LoginCtrl">
-			<form ng-submit="login()" ng-hide="user">
-		        <input type="text" ng-model="username"  size="30" placeholder="Username">
-		        <input type="password" ng-model="password"  size="30" placeholder="Password">
-		        <input type="submit" value="login">
-		    </form>
-		    <a href="" ng-click="logout()" ng-show="user">Logout</a>
-		</div>
-		<div id="content" ng-controller="BookCtrl">
+		<section ng-controller="BookCtrl">
+			<nav>
+				<div class="header-section">
+					<span class="icon-search large-icon header-icon"></span>
+					<div class="header-section-content">
+						<input type="text" ng-model="search.title" size="30" placeholder="Search">
+					</div>
+				</div>
+			</nav>
+
+			<div id="login" ng-controller="LoginCtrl">
+				<form ng-submit="login()" ng-hide="user">
+			        <input type="text" ng-model="username"  size="30" placeholder="Username">
+			        <input type="password" ng-model="password"  size="30" placeholder="Password">
+			        <input type="submit" value="login">
+			    </form>
+			    <a href="" ng-click="logout()" ng-show="user">Logout</a>
+			</div>
+
 			<form ng-submit="add()" ng-show="user">
 		        <input type="text" ng-model="newBookTitle"  size="30" placeholder="Title">
 		        <input type="submit" value="add">
 		    </form>
+	        
             <ul>
-                <li ng-repeat="book in books | orderBy:'title'">
+                <li ng-repeat="book in books | orderBy:'title' | filter:search">
                 	<div ng-switch on="book.edit">
                 		<form ng-switch-when="edit" ng-submit="edit(book)">
                 			<input type="text" ng-model="book.title" size="30" placeholder="New Title">
@@ -58,6 +69,7 @@
                 	</div>
                 </li>
             </ul>
-        </div>		
+
+		</section>
 	</body>
 </html>

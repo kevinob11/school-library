@@ -1,0 +1,55 @@
+@import "base";
+
+html {
+	background-color: #eaeaea;
+}
+
+body {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+nav {
+	border-width: 0 1px 1px;
+	border-style: solid;
+	border-color: #fff #ccc #aaa;
+	background-color: #fff;
+	border-radius: 0 0 4px 4px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	@include box-shadow(0 0 3px -1px rgba(0,0,0,.1));
+}
+
+.header-section {
+	border-right: 1px solid #ccc;
+	display: inline-block;
+
+	.header-icon {
+		padding: 16px;
+		color: #CD412D;
+		@include transition-property(color, background-color);
+		@include transition-duration(200ms);
+	}
+
+	.header-section-content {
+		display: inline-block;
+	}
+
+	input {
+		font-size: 44px;
+		line-height: 54px;
+		border: 0;
+		padding: 5px 0;
+		@include input-placeholder-color(rgba(0,0,0,.2));
+	}
+
+	&.closed { 
+		.header-section-content {display: none;}
+
+		.header-icon:hover {
+			color: #fff;
+			background-color: #555;
+			cursor: pointer;
+		}
+	}
+}

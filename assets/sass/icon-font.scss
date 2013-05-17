@@ -1,0 +1,27 @@
+@import "base";
+$path: "icon-font/icon-font";
+
+@include font-face(
+  'icon-font', font-files(
+    "#{$path}.woff", woff,
+    "#{$path}.ttf", truetype,
+    "#{$path}.svg", svg
+  ),
+  '#{$path}.eot', normal, normal
+);
+
+  /* Use the following CSS code if you want to have a class per icon */
+.icon, [class^="icon-"], [class*=" icon-"] {
+  @include icon-font;
+}
+
+.large-icon {
+	@include icon-size(32px, 32px);
+}
+
+.icon-search                          {@include icon-search;}
+.icon-login                           {@include icon-login;}
+.icon-delete                          {@include icon-delete;}
+.icon-edit                            {@include icon-edit;}
+.icon-checkin                         {@include icon-checkin;}
+.icon-checkout                        {@include icon-checkout;}
